@@ -1,8 +1,8 @@
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import JSZip from "jszip";
 import imageCompression from "browser-image-compression";
 
-export function Welcome() {
+export function ImageCompressor() {
   const [uploaded, setUploaded] = useState(0);
   const [originalImages, setOriginalImages] = useState<File[]>([]);
   const [compressedImages, setCompressedImages] = useState<File[]>([]);
@@ -26,6 +26,9 @@ export function Welcome() {
         maxSizeMB: 2,
         maxWidthOrHeight: 864,
         useWebWorker: true,
+        onProgress: (progress: number) => {
+          console.log(`Compression progress: ${progress}%`);
+        },
       };
       const compressed = await Promise.all(
         originalImages.map((file) => imageCompression(file, options))
