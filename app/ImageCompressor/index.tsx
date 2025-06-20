@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ChangeEvent } from "react";
+import { useState, type ChangeEvent } from "react";
 import JSZip from "jszip";
 import imageCompression from "browser-image-compression";
 
