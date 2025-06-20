@@ -46,10 +46,10 @@ npm run build
 To build and run using Docker:
 
 ```bash
-docker build -t image-compressor-app .
+docker build -t image-compressor .
 
 # Run the container
-docker run -p 3000:3000 image-compressor-app
+docker run -p 3000:3000 image-compressor
 ```
 
 ### DIY Deployment
