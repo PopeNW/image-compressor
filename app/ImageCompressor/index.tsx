@@ -48,9 +48,8 @@ export function ImageCompressor() {
   return (
     <main className="flex flex-col items-center justify-center min-h-screen">
       <h1 className="text-3xl font-bold mb-4">
-        Image compression with
-        <span className="text-blue-600"> browser-image-compression </span>
-        dependency!
+        Image compression with{" "}
+        <span className="text-blue-600">browser-image-compression</span>
       </h1>
       <div className="flex flex-col items-center mb-4">
         <input
