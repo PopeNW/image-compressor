@@ -7,34 +7,14 @@ import { PageTitle } from "~/components/PageTitle";
 import { ImageUploader } from "~/components/ImageUploader";
 import { Section } from "~/components/Section";
 import { SectionTitle } from "~/components/SectionTitle";
-import { Button } from "~/components/Button";
-
-interface CompressionButtonProps {
-  handleCompression: () => void;
-  isCompressing: boolean;
-  hasUploadedImages: boolean;
-}
-
-const CompressionButton = ({
-  handleCompression,
-  isCompressing,
-  hasUploadedImages,
-}: CompressionButtonProps) => {
-  return (
-    <Button
-      onClick={handleCompression}
-      disabled={isCompressing || !hasUploadedImages}
-    >
-      {isCompressing ? "Compressing..." : "Compress"}
-    </Button>
-  );
-};
+import { CompressionControl } from "~/components/CompressionControl";
+import { DownloadImages } from "~/components/DownloadImages";
 
 // Main component for Image Compressor
 const ImageCompressor = () => {
   const [uploaded, setUploaded] = useState(0);
   const [originalImages, setOriginalImages] = useState<File[]>([]);
-  const [compressedImages, setCompressedImages] = useState<File[]>([]);
+  const [_compressedImages, setCompressedImages] = useState<File[]>([]);
   const [zipBlob, setZipBlob] = useState<Blob | null>(null);
   const [overallProgress, setOverallProgress] = useState<number>(0);
   const [isCompressing, setIsCompressing] = useState(false);
@@ -112,61 +92,14 @@ const ImageCompressor = () => {
         uploadedFileCount={originalImages.length}
       />
 
-      <br />
+      <CompressionControl
+        uploadedFileCount={originalImages.length}
+        handleCompression={handleCompression}
+        isCompressing={isCompressing}
+        progress={overallProgress}
+      />
 
-      {/* <div className="flex flex-col items-center">
-        <h3>Original Images: {originalImages.length}</h3>
-        <h3>Compressed Images: {compressedImages.length}</h3>
-      </div>
-      <br /> */}
-
-      <Section>
-        <SectionTitle>Compress Images</SectionTitle>
-        {/* Progress Bar */}
-        <div className="w-64 bg-gray-200 rounded-full h-4 mb-4">
-          <div
-            className="bg-blue-600 h-4 rounded-full transition-all duration-300"
-            style={{ width: `${overallProgress}%` }}
-          />
-          <div className="text-center text-sm mt-1">{overallProgress}%</div>
-        </div>
-        <CompressionButton
-          handleCompression={handleCompression}
-          isCompressing={isCompressing}
-          hasUploadedImages={originalImages.length > 0}
-        />
-      </Section>
-
-      <br />
-
-      <Section>
-        <SectionTitle>Download Compressed Images</SectionTitle>
-        {zipBlob ? (
-          <a
-            href={URL.createObjectURL(zipBlob)}
-            download="compressed-images.zip"
-            className="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
-          >
-            Download Compressed Images (ZIP)
-          </a>
-        ) : (
-          <p>No compressed images available for download.</p>
-        )}
-      </Section>
-
-      <div className="flex flex-col items-center min-h-[48px]">
-        <a
-          href={zipBlob ? URL.createObjectURL(zipBlob) : undefined}
-          download="compressed-images.zip"
-          className={`mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition ${
-            zipBlob ? "" : "invisible"
-          }`}
-          tabIndex={zipBlob ? 0 : -1}
-          aria-disabled={!zipBlob}
-        >
-          Download All Compressed Images (ZIP)
-        </a>
-      </div>
+      <DownloadImages zipBlob={zipBlob} />
     </Main>
   );
 };

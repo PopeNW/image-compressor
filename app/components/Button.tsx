@@ -3,15 +3,15 @@ import styled from "styled-components";
 export const Button = styled.button`
   display: block;
   color: #fff;
-  background-color: #28a745;
+  background-color: #007bff; /* A vibrant blue for action buttons */
   border: none;
   padding: 0.5rem;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.3s;
 
   &:hover {
-    background-color: #218838;
+    background-color: #0056b3;
   }
 
   &:disabled {
