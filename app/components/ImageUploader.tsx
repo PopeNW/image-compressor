@@ -26,7 +26,7 @@ const ImageUploader = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const uploadCountText = uploadedFileCount
     ? `${uploadedFileCount} image${uploadedFileCount > 1 ? "s" : ""} selected`
-    : "No images selected";
+    : "Select images to upload";
 
   return (
     <Section>

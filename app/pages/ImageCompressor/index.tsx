@@ -8,13 +8,13 @@ import { ImageUploader } from "~/components/ImageUploader";
 import { Section } from "~/components/Section";
 import { SectionTitle } from "~/components/SectionTitle";
 import { CompressionControl } from "~/components/CompressionControl";
-import { DownloadImages } from "~/components/DownloadImages";
+import { DownloadLink } from "~/components/DownloadImages";
 
 // Main component for Image Compressor
 const ImageCompressor = () => {
   const [uploaded, setUploaded] = useState(0);
   const [originalImages, setOriginalImages] = useState<File[]>([]);
-  const [_compressedImages, setCompressedImages] = useState<File[]>([]);
+  const [compressedImages, setCompressedImages] = useState<File[]>([]);
   const [zipBlob, setZipBlob] = useState<Blob | null>(null);
   const [overallProgress, setOverallProgress] = useState<number>(0);
   const [isCompressing, setIsCompressing] = useState(false);
@@ -94,12 +94,12 @@ const ImageCompressor = () => {
 
       <CompressionControl
         uploadedFileCount={originalImages.length}
+        compressedFileCount={compressedImages.length}
         handleCompression={handleCompression}
         isCompressing={isCompressing}
         progress={overallProgress}
+        zipBlob={zipBlob}
       />
-
-      <DownloadImages zipBlob={zipBlob} />
     </Main>
   );
 };

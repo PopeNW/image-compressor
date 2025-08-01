@@ -1,41 +1,31 @@
-import { css } from "styled-components";
-import { Section } from "./Section";
-import { SectionTitle } from "./SectionTitle";
 import styled from "styled-components";
+import { interactiveStyles } from "./Button";
 
 interface DownloadImagesProps {
   zipBlob: Blob | null;
 }
 
-const Link = styled.a`
-  display: inline-block;
-  margin-top: 1rem;
-  background-color: #28a745;
+const Link = styled.a<{ disabled: boolean }>`
+  ${interactiveStyles}
+
   color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  text-decoration: none;
-  transition: background-color 0.3s;
+  background-color: ${({ disabled }) => (disabled ? "#6c757d" : "#28a745")};
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
 
   &:hover {
-    background-color: #218838;
+    background-color: ${({ disabled }) => (disabled ? "#6c757d" : "#218838")};
   }
 `;
 
-export const DownloadImages = ({ zipBlob }: DownloadImagesProps) => {
+export const DownloadLink = ({ zipBlob }: DownloadImagesProps) => {
   return (
-    <Section>
-      <SectionTitle>Download Compressed Images</SectionTitle>
-      {zipBlob ? (
-        <Link
-          href={URL.createObjectURL(zipBlob)}
-          download="compressed-images.zip"
-        >
-          Download Compressed Images (ZIP)
-        </Link>
-      ) : (
-        <p>No compressed images available for download.</p>
-      )}
-    </Section>
+    <Link
+      disabled={!zipBlob}
+      href={zipBlob ? URL.createObjectURL(zipBlob) : "#"}
+      download="compressed-images.zip"
+    >
+      Download
+    </Link>
   );
 };

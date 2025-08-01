@@ -1,14 +1,22 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-export const Button = styled.button`
-  display: block;
+export const interactiveStyles = css`
+  display: inline-block;
   color: #fff;
-  background-color: #007bff; /* A vibrant blue for action buttons */
   border: none;
   padding: 0.5rem;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
+  opacity: 1;
+  text-decoration: none;
+  text-align: center;
+`;
+
+export const Button = styled.button`
+  ${interactiveStyles}
+
+  background-color: #007bff;
 
   &:hover {
     background-color: #0056b3;
@@ -17,5 +25,6 @@ export const Button = styled.button`
   &:disabled {
     background-color: #6c757d;
     cursor: not-allowed;
+    opacity: 0.6;
   }
 `;
