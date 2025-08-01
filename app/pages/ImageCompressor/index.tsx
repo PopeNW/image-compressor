@@ -12,14 +12,6 @@ const Title = styled.h1`
   color: #333;
 `;
 
-const Link = styled.a`
-  color: #1e90ff;
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
 const Main = styled.main`
   display: flex;
   flex-direction: column;
