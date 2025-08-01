@@ -1,5 +1,5 @@
 import type { Route } from "./+types/home";
-import { ImageCompressor } from "../ImageCompressor";
+import { ImageCompressor } from "~/pages/ImageCompressor";
 
 export function meta({}: Route.MetaArgs) {
   return [

@@ -1,8 +1,37 @@
 import { useState, type ChangeEvent } from "react";
 import JSZip from "jszip";
 import imageCompression from "browser-image-compression";
+import styled from "styled-components";
+import { CompressionOptions } from "~/components/CompressionOptions";
 
-export function ImageCompressor() {
+const Title = styled.h1`
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #333;
+`;
+
+const Link = styled.a`
+  color: #1e90ff;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const Main = styled.main`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  color: #333;
+  max-width: 1200px;
+  margin: auto;
+`;
+
+const ImageCompressor = () => {
   const [uploaded, setUploaded] = useState(0);
   const [originalImages, setOriginalImages] = useState<File[]>([]);
   const [compressedImages, setCompressedImages] = useState<File[]>([]);
@@ -68,45 +97,25 @@ export function ImageCompressor() {
   };
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-3xl font-bold mb-4">
+    <Main>
+      <Title>
         Image compressor with{" "}
-        <span className="text-blue-600">
-          <a
-            href="https://github.com/Donaldcwl/browser-image-compression"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            browser-image-compression
-          </a>
-        </span>
-      </h1>
-      <br />
-      {/* Compression Options */}
-      <div>
-        <label className="block mb-2">
-          Max Size (MB):
-          <input
-            type="number"
-            value={maxSizeMB}
-            onChange={(e) => setMaxSizeMB(Number(e.target.value))}
-            className="ml-2 p-1 border rounded"
-            min="0.1"
-            step="0.1"
-          />
-        </label>
-        <label className="block mb-2">
-          Max Width/Height (px):
-          <input
-            type="number"
-            value={maxWidthOrHeight}
-            onChange={(e) => setMaxWidthOrHeight(Number(e.target.value))}
-            className="ml-2 p-1 border rounded"
-            min="1"
-          />
-        </label>
-      </div>
-      <br />
+        <Link
+          href="https://github.com/Donaldcwl/browser-image-compression"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          browser-image-compression
+        </Link>
+      </Title>
+
+      <CompressionOptions
+        maxSizeMB={maxSizeMB}
+        setMaxSizeMB={setMaxSizeMB}
+        maxWidthOrHeight={maxWidthOrHeight}
+        setMaxWidthOrHeight={setMaxWidthOrHeight}
+      />
+
       <div className="flex flex-row items-center mb-4 gap-4">
         {/* File picker for individual files */}
         <label className="bg-gray-100 p-2 rounded cursor-pointer transition hover:bg-gray-200 hover:ring-2 hover:ring-blue-400">
@@ -173,6 +182,8 @@ export function ImageCompressor() {
           Download All Compressed Images (ZIP)
         </a>
       </div>
-    </main>
+    </Main>
   );
-}
+};
+
+export { ImageCompressor };
