@@ -5,10 +5,7 @@ import { Settings } from "~/components/Settings";
 import { Main } from "~/components/Main";
 import { PageTitle } from "~/components/PageTitle";
 import { ImageUploader } from "~/components/ImageUploader";
-import { Section } from "~/components/Section";
-import { SectionTitle } from "~/components/SectionTitle";
 import { CompressionControl } from "~/components/CompressionControl";
-import { DownloadLink } from "~/components/DownloadImages";
 
 // Main component for Image Compressor
 const ImageCompressor = () => {
