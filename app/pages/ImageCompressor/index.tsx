@@ -129,7 +129,7 @@ const ImageCompressor = () => {
         <div
           className="bg-blue-600 h-4 rounded-full transition-all duration-300"
           style={{ width: `${overallProgress}%` }}
-        ></div>
+        />
         <div className="text-center text-sm mt-1">{overallProgress}%</div>
       </div>
       <br />
