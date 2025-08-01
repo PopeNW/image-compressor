@@ -10,7 +10,7 @@ interface CompressionOptionsProps {
   setMaxWidthOrHeight: (value: number) => void;
 }
 
-const CompressionOptions = ({
+const Settings = ({
   maxSizeMB,
   setMaxSizeMB,
   maxWidthOrHeight,
@@ -18,7 +18,7 @@ const CompressionOptions = ({
 }: CompressionOptionsProps) => {
   return (
     <Section>
-      <SectionTitle>Compression Options</SectionTitle>
+      <SectionTitle>Settings</SectionTitle>
       <InputWrapper>
         <label>Max Size (MB):</label>
         <input
@@ -42,4 +42,4 @@ const CompressionOptions = ({
   );
 };
 
-export { CompressionOptions };
+export { Settings };

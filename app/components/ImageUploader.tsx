@@ -3,23 +3,10 @@ import { useRef, type ChangeEvent } from "react";
 import styled from "styled-components";
 import { Section } from "./Section";
 import { SectionTitle } from "./SectionTitle";
+import { Button } from "./Button";
 
 const HiddenInput = styled.input`
   display: none;
-`;
-
-const UploadButton = styled.button`
-  display: block;
-  width: 100%;
-  color: #fff;
-  background-color: #28a745;
-  border: none;
-  padding: 0.5rem;
-  border-radius: 4px;
-  cursor: pointer;
-  &:hover {
-    background-color: #218838;
-  }
 `;
 
 const UploadCount = styled.p`
@@ -52,9 +39,7 @@ const ImageUploader = ({
         onChange={handleFileUpload}
         accept="image/*"
       />
-      <UploadButton onClick={() => inputRef.current?.click()}>
-        Choose Images
-      </UploadButton>
+      <Button onClick={() => inputRef.current?.click()}>Choose Images</Button>
     </Section>
   );
 };
