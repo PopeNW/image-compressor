@@ -98,16 +98,7 @@ const ImageCompressor = () => {
 
   return (
     <Main>
-      <Title>
-        Image compressor with{" "}
-        <Link
-          href="https://github.com/Donaldcwl/browser-image-compression"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          browser-image-compression
-        </Link>
-      </Title>
+      <Title>Image Compressor</Title>
 
       <CompressionOptions
         maxSizeMB={maxSizeMB}
