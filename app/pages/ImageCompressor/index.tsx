@@ -4,6 +4,7 @@ import imageCompression from "browser-image-compression";
 import { CompressionOptions } from "~/components/CompressionOptions";
 import { Main } from "~/components/Main";
 import { PageTitle } from "~/components/PageTitle";
+import { UploadOptions } from "~/components/UploadOptions";
 
 const ImageCompressor = () => {
   const [uploaded, setUploaded] = useState(0);
@@ -81,32 +82,7 @@ const ImageCompressor = () => {
         setMaxWidthOrHeight={setMaxWidthOrHeight}
       />
 
-      <div className="flex flex-row items-center mb-4 gap-4">
-        {/* File picker for individual files */}
-        <label className="bg-gray-100 p-2 rounded cursor-pointer transition hover:bg-gray-200 hover:ring-2 hover:ring-blue-400">
-          Select Images
-          <input
-            className="hidden"
-            type="file"
-            multiple
-            onChange={handleFileUpload}
-            accept="image/*"
-          />
-        </label>
-        {/* Folder picker for directories */}
-        <label className="bg-gray-100 p-2 rounded cursor-pointer transition hover:bg-gray-200 hover:ring-2 hover:ring-blue-400">
-          Select Folder
-          <input
-            className="hidden"
-            type="file"
-            multiple
-            // @ts-ignore
-            webkitdirectory="true"
-            onChange={handleFileUpload}
-            accept="image/*"
-          />
-        </label>
-      </div>
+      <UploadOptions handleFileUpload={handleFileUpload} />
       <br />
 
       <div className="flex flex-col items-center">
