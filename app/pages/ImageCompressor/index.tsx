@@ -4,7 +4,7 @@ import imageCompression from "browser-image-compression";
 import { CompressionOptions } from "~/components/CompressionOptions";
 import { Main } from "~/components/Main";
 import { PageTitle } from "~/components/PageTitle";
-import { UploadOptions } from "~/components/UploadOptions";
+import { ImageUploader } from "~/components/ImageUploader";
 
 const ImageCompressor = () => {
   const [uploaded, setUploaded] = useState(0);
@@ -82,7 +82,10 @@ const ImageCompressor = () => {
         setMaxWidthOrHeight={setMaxWidthOrHeight}
       />
 
-      <UploadOptions handleFileUpload={handleFileUpload} />
+      <ImageUploader
+        handleFileUpload={handleFileUpload}
+        uploadedFileCount={originalImages.length}
+      />
       <br />
 
       <div className="flex flex-col items-center">
