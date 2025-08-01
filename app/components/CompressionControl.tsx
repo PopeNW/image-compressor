@@ -1,5 +1,4 @@
 import { Button } from "./Button";
-import { DownloadLink } from "./DownloadImages";
 import { ProgressBar } from "./ProgressBar";
 import { Section } from "./Section";
 import { SectionTitle } from "./SectionTitle";
@@ -11,12 +10,8 @@ interface CompressButtonProps {
   hasUploadedImages: boolean;
 }
 
-const OptionsWrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1em;
-  justify-content: center;
-  margin: 1em 0;
+const StyledCompressionButton = styled(Button)`
+  margin-top: auto;
 `;
 
 const CompressButton = ({
@@ -25,12 +20,12 @@ const CompressButton = ({
   hasUploadedImages,
 }: CompressButtonProps) => {
   return (
-    <Button
+    <StyledCompressionButton
       onClick={handleCompression}
       disabled={isCompressing || !hasUploadedImages}
     >
-      {isCompressing ? "Compressing..." : "Compress"}
-    </Button>
+      {isCompressing ? "Compressing Images..." : "Compress Images"}
+    </StyledCompressionButton>
   );
 };
 
@@ -75,7 +70,6 @@ interface CompressionControlProps {
   handleCompression: () => void;
   isCompressing: boolean;
   progress: number;
-  zipBlob: Blob | null;
 }
 
 export const CompressionControl = ({
@@ -84,25 +78,20 @@ export const CompressionControl = ({
   handleCompression,
   isCompressing,
   progress,
-  zipBlob,
 }: CompressionControlProps) => {
   return (
     <Section>
-      <SectionTitle>Compress Images</SectionTitle>
+      <SectionTitle>Compress</SectionTitle>
       <CompressionDescription
         uploadedFileCount={uploadedFileCount}
         compressedFileCount={compressedFileCount}
       />
-
       <ProgressBar progress={progress} />
-      <OptionsWrapper>
-        <CompressButton
-          handleCompression={handleCompression}
-          isCompressing={isCompressing}
-          hasUploadedImages={uploadedFileCount > 0}
-        />
-        <DownloadLink zipBlob={zipBlob} />
-      </OptionsWrapper>
+      <CompressButton
+        handleCompression={handleCompression}
+        isCompressing={isCompressing}
+        hasUploadedImages={uploadedFileCount > 0}
+      />
     </Section>
   );
 };

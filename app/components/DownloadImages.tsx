@@ -1,13 +1,12 @@
 import styled from "styled-components";
 import { interactiveStyles } from "./Button";
-
-interface DownloadImagesProps {
-  zipBlob: Blob | null;
-}
+import { Section } from "./Section";
+import { SectionTitle } from "./SectionTitle";
 
 const Link = styled.a<{ disabled: boolean }>`
   ${interactiveStyles}
 
+  margin-top: auto;
   color: white;
   background-color: ${({ disabled }) => (disabled ? "#6c757d" : "#28a745")};
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
@@ -18,14 +17,47 @@ const Link = styled.a<{ disabled: boolean }>`
   }
 `;
 
-export const DownloadLink = ({ zipBlob }: DownloadImagesProps) => {
+const Text = styled.p`
+  margin: 0.5rem 0;
+  color: #555;
+`;
+
+interface DownloadLinkProps {
+  zipBlob: Blob | null;
+}
+
+const DownloadLink = ({ zipBlob }: DownloadLinkProps) => {
   return (
     <Link
       disabled={!zipBlob}
       href={zipBlob ? URL.createObjectURL(zipBlob) : "#"}
       download="compressed-images.zip"
     >
-      Download
+      Download Compressed Images
     </Link>
+  );
+};
+
+interface DownloadImagesProps {
+  zipBlob: Blob | null;
+  compressedImages: File[];
+}
+
+export const DownloadImages = ({
+  zipBlob,
+  compressedImages,
+}: DownloadImagesProps) => {
+  return (
+    <Section>
+      <SectionTitle>Download</SectionTitle>
+      <Text>
+        {compressedImages.length > 0
+          ? `${compressedImages.length} image${
+              compressedImages.length > 1 ? "s" : ""
+            } compressed and ready for download`
+          : "No images compressed yet"}
+      </Text>
+      <DownloadLink zipBlob={zipBlob} />
+    </Section>
   );
 };

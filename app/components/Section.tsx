@@ -1,8 +1,9 @@
 import styled from "styled-components";
 
 export const Section = styled.section`
+  display: flex;
+  flex-direction: column;
   min-width: 25em;
-  margin: 2rem 0;
   padding: 1rem;
   background-color: #f9f9f9;
   border-radius: 8px;

@@ -1,13 +1,26 @@
 import { useState, type ChangeEvent } from "react";
 import JSZip from "jszip";
 import imageCompression from "browser-image-compression";
+import styled from "styled-components";
+
 import { Settings } from "~/components/Settings";
-import { Main } from "~/components/Main";
 import { PageTitle } from "~/components/PageTitle";
 import { ImageUploader } from "~/components/ImageUploader";
 import { CompressionControl } from "~/components/CompressionControl";
+import { DownloadImages } from "~/components/DownloadImages";
 
-// Main component for Image Compressor
+const Main = styled.main`
+  margin: auto;
+  padding: 2rem;
+`;
+
+const GridLayout = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(25em, 1fr));
+  gap: 1rem;
+  align-items: stretch;
+`;
+
 const ImageCompressor = () => {
   const [uploaded, setUploaded] = useState(0);
   const [originalImages, setOriginalImages] = useState<File[]>([]);
@@ -76,27 +89,26 @@ const ImageCompressor = () => {
   return (
     <Main>
       <PageTitle>Image Compressor</PageTitle>
-
-      <Settings
-        maxSizeMB={maxSizeMB}
-        setMaxSizeMB={setMaxSizeMB}
-        maxWidthOrHeight={maxWidthOrHeight}
-        setMaxWidthOrHeight={setMaxWidthOrHeight}
-      />
-
-      <ImageUploader
-        handleFileUpload={handleFileUpload}
-        uploadedFileCount={originalImages.length}
-      />
-
-      <CompressionControl
-        uploadedFileCount={originalImages.length}
-        compressedFileCount={compressedImages.length}
-        handleCompression={handleCompression}
-        isCompressing={isCompressing}
-        progress={overallProgress}
-        zipBlob={zipBlob}
-      />
+      <GridLayout>
+        <Settings
+          maxSizeMB={maxSizeMB}
+          setMaxSizeMB={setMaxSizeMB}
+          maxWidthOrHeight={maxWidthOrHeight}
+          setMaxWidthOrHeight={setMaxWidthOrHeight}
+        />
+        <ImageUploader
+          handleFileUpload={handleFileUpload}
+          uploadedFileCount={originalImages.length}
+        />
+        <CompressionControl
+          uploadedFileCount={originalImages.length}
+          compressedFileCount={compressedImages.length}
+          handleCompression={handleCompression}
+          isCompressing={isCompressing}
+          progress={overallProgress}
+        />
+        <DownloadImages zipBlob={zipBlob} compressedImages={compressedImages} />
+      </GridLayout>
     </Main>
   );
 };

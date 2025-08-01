@@ -6,6 +6,7 @@ const Wrapper = styled.div`
   padding: 0.5em;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   background-color: #f3f4f6;
+  margin: 1em 0;
 `;
 
 const Bar = styled.div`

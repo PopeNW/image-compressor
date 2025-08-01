@@ -14,6 +14,10 @@ const UploadCount = styled.p`
   color: #555;
 `;
 
+const StyledUploadButton = styled(Button)`
+  margin-top: auto;
+`;
+
 interface UploadOptionsProps {
   handleFileUpload: (e: ChangeEvent<HTMLInputElement>) => void;
   uploadedFileCount?: number;
@@ -30,7 +34,7 @@ const ImageUploader = ({
 
   return (
     <Section>
-      <SectionTitle>Upload Images</SectionTitle>
+      <SectionTitle>Upload</SectionTitle>
       <UploadCount>{uploadCountText}</UploadCount>
       <HiddenInput
         ref={inputRef}
@@ -39,7 +43,9 @@ const ImageUploader = ({
         onChange={handleFileUpload}
         accept="image/*"
       />
-      <Button onClick={() => inputRef.current?.click()}>Choose Images</Button>
+      <StyledUploadButton onClick={() => inputRef.current?.click()}>
+        Choose Images
+      </StyledUploadButton>
     </Section>
   );
 };
