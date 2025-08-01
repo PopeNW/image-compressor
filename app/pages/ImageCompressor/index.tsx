@@ -1,27 +1,9 @@
 import { useState, type ChangeEvent } from "react";
 import JSZip from "jszip";
 import imageCompression from "browser-image-compression";
-import styled from "styled-components";
 import { CompressionOptions } from "~/components/CompressionOptions";
-
-const Title = styled.h1`
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  text-align: center;
-  color: #333;
-`;
-
-const Main = styled.main`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  color: #333;
-  max-width: 1200px;
-  margin: auto;
-`;
+import { Main } from "~/components/Main";
+import { PageTitle } from "~/components/PageTitle";
 
 const ImageCompressor = () => {
   const [uploaded, setUploaded] = useState(0);
@@ -90,7 +72,7 @@ const ImageCompressor = () => {
 
   return (
     <Main>
-      <Title>Image Compressor</Title>
+      <PageTitle>Image Compressor</PageTitle>
 
       <CompressionOptions
         maxSizeMB={maxSizeMB}
