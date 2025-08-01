@@ -9,6 +9,8 @@ export function ImageCompressor() {
   const [zipBlob, setZipBlob] = useState<Blob | null>(null);
   const [overallProgress, setOverallProgress] = useState<number>(0);
   const [isCompressing, setIsCompressing] = useState(false);
+  const [maxSizeMB, setMaxSizeMB] = useState(2);
+  const [maxWidthOrHeight, setMaxWidthOrHeight] = useState(864);
 
   // File Upload (bulk)
   const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
@@ -36,8 +38,8 @@ export function ImageCompressor() {
       // Start all compressions in parallel
       const compressions = originalImages.map((file, idx) =>
         imageCompression(file, {
-          maxSizeMB: 2,
-          maxWidthOrHeight: 864,
+          maxSizeMB: maxSizeMB,
+          maxWidthOrHeight: maxWidthOrHeight,
           useWebWorker: true,
           onProgress: (progress: number) => {
             progressArr[idx] = progress;
@@ -79,6 +81,31 @@ export function ImageCompressor() {
           </a>
         </span>
       </h1>
+      <br />
+      {/* Compression Options */}
+      <div>
+        <label className="block mb-2">
+          Max Size (MB):
+          <input
+            type="number"
+            value={maxSizeMB}
+            onChange={(e) => setMaxSizeMB(Number(e.target.value))}
+            className="ml-2 p-1 border rounded"
+            min="0.1"
+            step="0.1"
+          />
+        </label>
+        <label className="block mb-2">
+          Max Width/Height (px):
+          <input
+            type="number"
+            value={maxWidthOrHeight}
+            onChange={(e) => setMaxWidthOrHeight(Number(e.target.value))}
+            className="ml-2 p-1 border rounded"
+            min="1"
+          />
+        </label>
+      </div>
       <br />
       <div className="flex flex-row items-center mb-4 gap-4">
         {/* File picker for individual files */}
