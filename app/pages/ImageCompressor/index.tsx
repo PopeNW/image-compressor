@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import JSZip from "jszip";
 import imageCompression from "browser-image-compression";
 import styled from "styled-components";
@@ -22,6 +22,7 @@ const GridLayout = styled.div`
 
 const ImageCompressor = () => {
   const [uploaded, setUploaded] = useState(0);
+  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [originalImages, setOriginalImages] = useState<File[]>([]);
   const [compressedImages, setCompressedImages] = useState<File[]>([]);
   const [zipBlob, setZipBlob] = useState<Blob | null>(null);
@@ -41,6 +42,10 @@ const ImageCompressor = () => {
       setOverallProgress(0);
       setCompressedImages([]);
       setZipBlob(null);
+
+      // Generate preview URLs
+      const urls = files.map((file) => URL.createObjectURL(file));
+      setPreviewUrls(urls);
     }
   };
 
@@ -85,6 +90,13 @@ const ImageCompressor = () => {
     }
   };
 
+  // Clean up object URLs when previewUrls change or component unmounts
+  useEffect(() => {
+    return () => {
+      previewUrls.forEach(URL.revokeObjectURL);
+    };
+  }, [previewUrls]);
+
   return (
     <Main>
       <PageTitle>Image Compressor</PageTitle>
@@ -92,6 +104,7 @@ const ImageCompressor = () => {
         <ImageUploader
           handleFileUpload={handleFileUpload}
           uploadedFileCount={originalImages.length}
+          previewUrls={previewUrls}
         />
         <CompressionControl
           uploadedFileCount={originalImages.length}
