@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import { Section } from "./Section";
-import { SectionTitle } from "./SectionTitle";
 import { InputWrapper } from "./InputWrapper";
 
 interface CompressionOptionsProps {
@@ -16,6 +14,7 @@ const OptionsWrapper = styled.div`
   gap: 1rem;
   width: 100%;
   border-radius: 0.5em;
+  border: 1px solid #ccc;
   padding: 1em;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   background-color: #f3f4f6;

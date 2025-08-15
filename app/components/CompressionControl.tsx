@@ -43,7 +43,7 @@ const CompressionDescription = ({
   if (compressedFileCount > 0) {
     return (
       <Text>
-        Compressed {compressedFileCount} image
+        Compressed <b>{compressedFileCount}</b> image
         {compressedFileCount !== 1 ? "s" : ""}
       </Text>
     );
@@ -55,7 +55,7 @@ const CompressionDescription = ({
 
   return (
     <Text>
-      {uploadedFileCount} image{uploadedFileCount !== 1 ? "s" : ""} selected for
+      <b>{uploadedFileCount}</b> image{uploadedFileCount !== 1 ? "s" : ""} selected for
       compression
     </Text>
   );

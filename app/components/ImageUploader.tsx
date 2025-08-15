@@ -45,9 +45,14 @@ const ImageUploader = ({
   previewUrls,
 }: UploadOptionsProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const uploadCountText = uploadedFileCount
-    ? `${uploadedFileCount} image${uploadedFileCount > 1 ? "s" : ""} selected`
-    : "Select images to upload";
+  const uploadCountText = uploadedFileCount ? (
+    <>
+      <b>{uploadedFileCount}</b> image{uploadedFileCount > 1 ? "s" : ""}{" "}
+      selected
+    </>
+  ) : (
+    "Select images to upload"
+  );
 
   return (
     <Section>

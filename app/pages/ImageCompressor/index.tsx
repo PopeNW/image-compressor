@@ -17,7 +17,7 @@ const FlexLayout = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  max-width: 44rem;
+  max-width: 45rem;
   margin: auto;
 `;
 

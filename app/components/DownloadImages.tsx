@@ -51,11 +51,15 @@ export const DownloadImages = ({
     <Section>
       <SectionTitle>Download</SectionTitle>
       <Text>
-        {compressedImages.length > 0
-          ? `${compressedImages.length} image${
-              compressedImages.length > 1 ? "s" : ""
-            } compressed and ready for download`
-          : "No images compressed yet"}
+        {compressedImages.length > 0 ? (
+          <>
+            <b>{compressedImages.length}</b> image
+            {compressedImages.length > 1 ? "s" : ""} compressed and ready for
+            download
+          </>
+        ) : (
+          "No images compressed yet"
+        )}
       </Text>
       <DownloadLink zipBlob={zipBlob} />
     </Section>
