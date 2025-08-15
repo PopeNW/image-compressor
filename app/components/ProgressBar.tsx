@@ -6,7 +6,6 @@ const Wrapper = styled.div`
   padding: 0.5em;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   background-color: #f3f4f6;
-  margin: 1em 0;
 `;
 
 const Bar = styled.div`
@@ -20,7 +19,7 @@ const Bar = styled.div`
 `;
 
 const BarFill = styled(Bar)<{ progress: number }>`
-  background-color: #28a745;
+  background-color: #06b6d4;
   width: ${({ progress }) => progress}%;
   transition: width 0.3s ease;
 `;

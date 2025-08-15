@@ -14,7 +14,11 @@ const OptionsWrapper = styled.div`
   display: flex;
   flex-direction: row;
   gap: 1rem;
-  margin-bottom: 1rem;
+  width: 100%;
+  border-radius: 0.5em;
+  padding: 0.5em;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background-color: #f3f4f6;
 `;
 
 const Input = styled.input`
@@ -32,30 +36,27 @@ const Settings = ({
   setMaxWidthOrHeight,
 }: CompressionOptionsProps) => {
   return (
-    <Section>
-      <SectionTitle>Settings</SectionTitle>
-      <OptionsWrapper>
-        <InputWrapper>
-          <label>Max Size (MB)</label>
-          <Input
-            type="number"
-            value={maxSizeMB}
-            onChange={(e) => setMaxSizeMB(Number(e.target.value))}
-            min="0.1"
-            step="0.1"
-          />
-        </InputWrapper>
-        <InputWrapper>
-          <label>Max Width/Height (px)</label>
-          <Input
-            type="number"
-            value={maxWidthOrHeight}
-            onChange={(e) => setMaxWidthOrHeight(Number(e.target.value))}
-            min="1"
-          />
-        </InputWrapper>
-      </OptionsWrapper>
-    </Section>
+    <OptionsWrapper>
+      <InputWrapper>
+        <label>Max Size (MB)</label>
+        <Input
+          type="number"
+          value={maxSizeMB}
+          onChange={(e) => setMaxSizeMB(Number(e.target.value))}
+          min="0.1"
+          step="0.1"
+        />
+      </InputWrapper>
+      <InputWrapper>
+        <label>Max Width/Height (px)</label>
+        <Input
+          type="number"
+          value={maxWidthOrHeight}
+          onChange={(e) => setMaxWidthOrHeight(Number(e.target.value))}
+          min="1"
+        />
+      </InputWrapper>
+    </OptionsWrapper>
   );
 };
 

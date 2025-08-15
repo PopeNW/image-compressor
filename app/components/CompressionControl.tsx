@@ -3,6 +3,7 @@ import { ProgressBar } from "./ProgressBar";
 import { Section } from "./Section";
 import { SectionTitle } from "./SectionTitle";
 import styled from "styled-components";
+import { Settings } from "./Settings";
 
 interface CompressButtonProps {
   handleCompression: () => void;
@@ -11,7 +12,7 @@ interface CompressButtonProps {
 }
 
 const StyledCompressionButton = styled(Button)`
-  margin-top: auto;
+  margin: 1rem 0;
 `;
 
 const CompressButton = ({
@@ -30,7 +31,7 @@ const CompressButton = ({
 };
 
 const Text = styled.p`
-  margin: 0.5rem 0;
+  margin-bottom: 1rem;
   color: #555;
 `;
 
@@ -70,6 +71,10 @@ interface CompressionControlProps {
   handleCompression: () => void;
   isCompressing: boolean;
   progress: number;
+  maxSizeMB: number;
+  setMaxSizeMB: (size: number) => void;
+  maxWidthOrHeight: number;
+  setMaxWidthOrHeight: (size: number) => void;
 }
 
 export const CompressionControl = ({
@@ -78,6 +83,10 @@ export const CompressionControl = ({
   handleCompression,
   isCompressing,
   progress,
+  maxSizeMB,
+  setMaxSizeMB,
+  maxWidthOrHeight,
+  setMaxWidthOrHeight,
 }: CompressionControlProps) => {
   return (
     <Section>
@@ -86,12 +95,18 @@ export const CompressionControl = ({
         uploadedFileCount={uploadedFileCount}
         compressedFileCount={compressedFileCount}
       />
-      <ProgressBar progress={progress} />
+      <Settings
+        maxSizeMB={maxSizeMB}
+        setMaxSizeMB={setMaxSizeMB}
+        maxWidthOrHeight={maxWidthOrHeight}
+        setMaxWidthOrHeight={setMaxWidthOrHeight}
+      />
       <CompressButton
         handleCompression={handleCompression}
         isCompressing={isCompressing}
         hasUploadedImages={uploadedFileCount > 0}
       />
+      <ProgressBar progress={progress} />
     </Section>
   );
 };

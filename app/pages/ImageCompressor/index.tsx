@@ -3,7 +3,6 @@ import JSZip from "jszip";
 import imageCompression from "browser-image-compression";
 import styled from "styled-components";
 
-import { Settings } from "~/components/Settings";
 import { PageTitle } from "~/components/PageTitle";
 import { ImageUploader } from "~/components/ImageUploader";
 import { CompressionControl } from "~/components/CompressionControl";
@@ -16,7 +15,7 @@ const Main = styled.main`
 
 const GridLayout = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(25em, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(28em, 1fr));
   gap: 1rem;
   align-items: stretch;
 `;
@@ -90,12 +89,6 @@ const ImageCompressor = () => {
     <Main>
       <PageTitle>Image Compressor</PageTitle>
       <GridLayout>
-        <Settings
-          maxSizeMB={maxSizeMB}
-          setMaxSizeMB={setMaxSizeMB}
-          maxWidthOrHeight={maxWidthOrHeight}
-          setMaxWidthOrHeight={setMaxWidthOrHeight}
-        />
         <ImageUploader
           handleFileUpload={handleFileUpload}
           uploadedFileCount={originalImages.length}
@@ -106,6 +99,10 @@ const ImageCompressor = () => {
           handleCompression={handleCompression}
           isCompressing={isCompressing}
           progress={overallProgress}
+          maxSizeMB={maxSizeMB}
+          setMaxSizeMB={setMaxSizeMB}
+          maxWidthOrHeight={maxWidthOrHeight}
+          setMaxWidthOrHeight={setMaxWidthOrHeight}
         />
         <DownloadImages zipBlob={zipBlob} compressedImages={compressedImages} />
       </GridLayout>
