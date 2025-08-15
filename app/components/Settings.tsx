@@ -38,8 +38,9 @@ const Settings = ({
   return (
     <OptionsWrapper>
       <InputWrapper>
-        <label>Max Size (MB)</label>
+        <label htmlFor="maxSizeMB">Max Size (MB)</label>
         <Input
+          id="maxSizeMB"
           type="number"
           value={maxSizeMB}
           onChange={(e) => setMaxSizeMB(Number(e.target.value))}
@@ -48,8 +49,9 @@ const Settings = ({
         />
       </InputWrapper>
       <InputWrapper>
-        <label>Max Width/Height (px)</label>
+        <label htmlFor="maxWidthOrHeight">Max Width/Height (px)</label>
         <Input
+          id="maxWidthOrHeight"
           type="number"
           value={maxWidthOrHeight}
           onChange={(e) => setMaxWidthOrHeight(Number(e.target.value))}
