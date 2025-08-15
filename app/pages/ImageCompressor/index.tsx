@@ -13,11 +13,12 @@ const Main = styled.main`
   padding: 2rem;
 `;
 
-const GridLayout = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(28em, 1fr));
+const FlexLayout = styled.div`
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
-  align-items: stretch;
+  max-width: 44rem;
+  margin: auto;
 `;
 
 const ImageCompressor = () => {
@@ -100,7 +101,7 @@ const ImageCompressor = () => {
   return (
     <Main>
       <PageTitle>Image Compressor</PageTitle>
-      <GridLayout>
+      <FlexLayout>
         <ImageUploader
           handleFileUpload={handleFileUpload}
           uploadedFileCount={originalImages.length}
@@ -118,7 +119,7 @@ const ImageCompressor = () => {
           setMaxWidthOrHeight={setMaxWidthOrHeight}
         />
         <DownloadImages zipBlob={zipBlob} compressedImages={compressedImages} />
-      </GridLayout>
+      </FlexLayout>
     </Main>
   );
 };

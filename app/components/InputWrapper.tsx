@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem;
+  flex: 1;
 
   label {
     margin-bottom: 0.5rem;

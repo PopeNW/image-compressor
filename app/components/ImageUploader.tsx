@@ -22,7 +22,7 @@ const PreviewGrid = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 `;
 
 const PreviewImg = styled.img`
