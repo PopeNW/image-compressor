@@ -11,22 +11,18 @@ interface CompressButtonProps {
   hasUploadedImages: boolean;
 }
 
-const StyledCompressionButton = styled(Button)`
-  margin: 1rem 0;
-`;
-
 const CompressButton = ({
   handleCompression,
   isCompressing,
   hasUploadedImages,
 }: CompressButtonProps) => {
   return (
-    <StyledCompressionButton
+    <Button
       onClick={handleCompression}
       disabled={isCompressing || !hasUploadedImages}
     >
       {isCompressing ? "Compressing Images..." : "Compress Images"}
-    </StyledCompressionButton>
+    </Button>
   );
 };
 
@@ -101,12 +97,12 @@ export const CompressionControl = ({
         maxWidthOrHeight={maxWidthOrHeight}
         setMaxWidthOrHeight={setMaxWidthOrHeight}
       />
+      <ProgressBar progress={progress} />
       <CompressButton
         handleCompression={handleCompression}
         isCompressing={isCompressing}
         hasUploadedImages={uploadedFileCount > 0}
       />
-      <ProgressBar progress={progress} />
     </Section>
   );
 };
