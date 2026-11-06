@@ -49,6 +49,14 @@ npm run build
 
 ## Deployment
 
+### GitHub Pages
+
+The GitHub Actions workflow builds the app and deploys the static site from
+`build/client` whenever changes are pushed to `main`. In the repository's
+**Settings → Pages**, set the build and deployment source to **GitHub Actions**.
+The deployed site will be available at
+`https://<owner>.github.io/<repository>/`.
+
 ### Docker Deployment
 
 To build and run using Docker:
