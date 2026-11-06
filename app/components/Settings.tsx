@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 import { InputWrapper } from "./InputWrapper";
 
 interface CompressionOptionsProps {
@@ -20,14 +21,6 @@ const OptionsWrapper = styled.div`
   background-color: #f3f4f6;
 `;
 
-const Input = styled.input`
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
-  width: 100%;
-`;
-
 const Settings = ({
   maxSizeMB,
   setMaxSizeMB,
@@ -38,23 +31,24 @@ const Settings = ({
     <OptionsWrapper>
       <InputWrapper>
         <label htmlFor="maxSizeMB">Max Size (MB)</label>
-        <Input
+        <input
           id="maxSizeMB"
           type="number"
           value={maxSizeMB}
-          onChange={(e) => setMaxSizeMB(Number(e.target.value))}
+          onChange={(event) => setMaxSizeMB(Number(event.target.value))}
           min="0.1"
           step="0.1"
         />
       </InputWrapper>
       <InputWrapper>
         <label htmlFor="maxWidthOrHeight">Max Width/Height (px)</label>
-        <Input
+        <input
           id="maxWidthOrHeight"
           type="number"
           value={maxWidthOrHeight}
-          onChange={(e) => setMaxWidthOrHeight(Number(e.target.value))}
+          onChange={(event) => setMaxWidthOrHeight(Number(event.target.value))}
           min="1"
+          step="1"
         />
       </InputWrapper>
     </OptionsWrapper>

@@ -4,7 +4,7 @@ A modern web application for bulk image compression in your browser, powered by 
 
 ## Features
 
-- 🖼️ Bulk image compression (select multiple files or folders)
+- 🖼️ Bulk image compression (select multiple images)
 - ⚡ Fast, client-side processing—no uploads required
 - 📦 Download all compressed images as a single ZIP archive
 - 🎨 Clean, responsive UI with Tailwind CSS
@@ -66,7 +66,7 @@ After building, deploy the contents of the `build/` directory using your preferr
 
 ## How It Works
 
-1. **Select Images or Folders:** Use the file picker to select individual images or entire folders.
+1. **Select Images:** Use the file picker to select one or more images.
 2. **Compress:** Click the "Compress" button to process all selected images in your browser.
 3. **Download ZIP:** Once compression is complete, download all images as a ZIP archive.
 

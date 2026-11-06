@@ -7,6 +7,9 @@ import { PageTitle } from "~/components/PageTitle";
 import { ImageUploader } from "~/components/ImageUploader";
 import { CompressionControl } from "~/components/CompressionControl";
 import { DownloadImages } from "~/components/DownloadImages";
+import { compressImages, getUniqueArchiveNames } from "./compression";
+
+const COMPRESSION_PROGRESS_WEIGHT = 80;
 
 const Main = styled.main`
   margin: auto;
@@ -22,79 +25,110 @@ const FlexLayout = styled.div`
 `;
 
 const ImageCompressor = () => {
-  const [uploaded, setUploaded] = useState(0);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [originalImages, setOriginalImages] = useState<File[]>([]);
   const [compressedImages, setCompressedImages] = useState<File[]>([]);
   const [zipBlob, setZipBlob] = useState<Blob | null>(null);
   const [overallProgress, setOverallProgress] = useState<number>(0);
+  const [progressPhase, setProgressPhase] = useState("Ready");
   const [isCompressing, setIsCompressing] = useState(false);
+  const [compressionError, setCompressionError] = useState<string | null>(null);
   const [maxSizeMB, setMaxSizeMB] = useState(2);
   const [maxWidthOrHeight, setMaxWidthOrHeight] = useState(864);
 
-  // File Upload (bulk)
-  const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const files = Array.from(e.target.files).filter((file) =>
-        file.type.startsWith("image/")
-      );
-      setOriginalImages(files);
-      setUploaded(1);
-      setOverallProgress(0);
-      setCompressedImages([]);
-      setZipBlob(null);
+  const handleFilesSelected = ({
+    currentTarget,
+  }: ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(currentTarget.files ?? []).filter((file) =>
+      file.type.startsWith("image/")
+    );
 
-      // Generate preview URLs
-      const urls = files.map((file) => URL.createObjectURL(file));
-      setPreviewUrls(urls);
-    }
+    setOriginalImages(files);
+    setPreviewUrls(files.map((file) => URL.createObjectURL(file)));
+    setCompressedImages([]);
+    setZipBlob(null);
+    setOverallProgress(0);
+    setProgressPhase("Ready");
+    setCompressionError(null);
+    currentTarget.value = "";
   };
 
-  // File Compression (bulk) with overall progress estimation
-  const handleCompression = async () => {
-    if (originalImages.length && uploaded) {
-      setIsCompressing(true);
-      setOverallProgress(0);
+  const handleCompress = async () => {
+    if (originalImages.length === 0) {
+      return;
+    }
 
-      // Create an array to store progress for each file
-      const progressArr = Array(originalImages.length).fill(0);
+    setCompressedImages([]);
+    setZipBlob(null);
+    setOverallProgress(0);
+    setProgressPhase("Ready");
 
-      // Start all compressions in parallel
-      const compressions = originalImages.map((file, idx) =>
-        imageCompression(file, {
-          maxSizeMB: maxSizeMB,
-          maxWidthOrHeight: maxWidthOrHeight,
-          useWebWorker: true,
-          onProgress: (progress: number) => {
-            progressArr[idx] = progress;
-            // Calculate average progress
-            const avg =
-              progressArr.reduce((sum, val) => sum + val, 0) /
-              progressArr.length;
-            setOverallProgress(Math.round(avg));
-          },
-        })
+    if (!Number.isFinite(maxSizeMB) || maxSizeMB <= 0) {
+      setCompressionError("Maximum file size must be greater than 0 MB.");
+      return;
+    }
+
+    if (
+      !Number.isFinite(maxWidthOrHeight) ||
+      maxWidthOrHeight <= 0 ||
+      !Number.isInteger(maxWidthOrHeight)
+    ) {
+      setCompressionError(
+        "Maximum width/height must be a positive whole number of pixels."
+      );
+      return;
+    }
+
+    setIsCompressing(true);
+    setProgressPhase("Compressing images");
+    setCompressionError(null);
+
+    try {
+      const compressed = await compressImages(
+        originalImages,
+        { maxSizeMB, maxWidthOrHeight, useWebWorker: true },
+        (progress) =>
+          setOverallProgress(
+            Math.round((progress * COMPRESSION_PROGRESS_WEIGHT) / 100)
+          )
       );
 
-      const compressed = await Promise.all(compressions);
-      setCompressedImages(compressed);
+      setProgressPhase("Creating ZIP archive");
+      setOverallProgress(COMPRESSION_PROGRESS_WEIGHT);
 
-      // Create ZIP
       const zip = new JSZip();
-      compressed.forEach((img, idx) => {
-        zip.file(originalImages[idx].name, img);
+      const archiveNames = getUniqueArchiveNames(originalImages);
+      compressed.forEach((image, index) => {
+        zip.file(archiveNames[index], image);
       });
-      const content = await zip.generateAsync({ type: "blob" });
+
+      const content = await zip.generateAsync(
+        { type: "blob" },
+        ({ percent }) =>
+          setOverallProgress(
+            COMPRESSION_PROGRESS_WEIGHT +
+              Math.round((percent * (100 - COMPRESSION_PROGRESS_WEIGHT)) / 100)
+          )
+      );
+      setCompressedImages(compressed);
       setZipBlob(content);
       setOverallProgress(100);
+      setProgressPhase("Complete");
+    } catch (error) {
+      setProgressPhase("Failed");
+      setCompressionError(
+        error instanceof Error
+          ? error.message
+          : "Unable to compress images or create the ZIP archive."
+      );
+    } finally {
       setIsCompressing(false);
     }
   };
 
-  // Clean up object URLs when previewUrls change or component unmounts
   useEffect(() => {
     return () => {
-      previewUrls.forEach(URL.revokeObjectURL);
+      previewUrls.forEach((url) => URL.revokeObjectURL(url));
     };
   }, [previewUrls]);
 
@@ -103,22 +137,27 @@ const ImageCompressor = () => {
       <PageTitle>Image Compressor</PageTitle>
       <FlexLayout>
         <ImageUploader
-          handleFileUpload={handleFileUpload}
-          uploadedFileCount={originalImages.length}
+          onFilesSelected={handleFilesSelected}
           previewUrls={previewUrls}
+          disabled={isCompressing}
         />
         <CompressionControl
           uploadedFileCount={originalImages.length}
           compressedFileCount={compressedImages.length}
-          handleCompression={handleCompression}
+          onCompress={handleCompress}
           isCompressing={isCompressing}
           progress={overallProgress}
+          progressPhase={progressPhase}
+          error={compressionError}
           maxSizeMB={maxSizeMB}
           setMaxSizeMB={setMaxSizeMB}
           maxWidthOrHeight={maxWidthOrHeight}
           setMaxWidthOrHeight={setMaxWidthOrHeight}
         />
-        <DownloadImages zipBlob={zipBlob} compressedImages={compressedImages} />
+        <DownloadImages
+          zipBlob={zipBlob}
+          compressedFileCount={compressedImages.length}
+        />
       </FlexLayout>
     </Main>
   );

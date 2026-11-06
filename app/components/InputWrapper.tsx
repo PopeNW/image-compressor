@@ -15,5 +15,6 @@ export const InputWrapper = styled.div`
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #fff;
+    width: 100%;
   }
 `;

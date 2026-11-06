@@ -1,19 +1,21 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+
 import { interactiveStyles } from "./Button";
 import { Section } from "./Section";
 import { SectionTitle } from "./SectionTitle";
 
-const Link = styled.a<{ disabled: boolean }>`
+const Link = styled.a<{ $disabled: boolean }>`
   ${interactiveStyles}
 
   margin-top: auto;
   color: white;
-  background-color: ${({ disabled }) => (disabled ? "#6c757d" : "#28a745")};
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
-  opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
+  background-color: ${({ $disabled }) => ($disabled ? "#6c757d" : "#28a745")};
+  cursor: ${({ $disabled }) => ($disabled ? "not-allowed" : "pointer")};
+  opacity: ${({ $disabled }) => ($disabled ? 0.6 : 1)};
 
   &:hover {
-    background-color: ${({ disabled }) => (disabled ? "#6c757d" : "#218838")};
+    background-color: ${({ $disabled }) => ($disabled ? "#6c757d" : "#218838")};
   }
 `;
 
@@ -27,10 +29,28 @@ interface DownloadLinkProps {
 }
 
 const DownloadLink = ({ zipBlob }: DownloadLinkProps) => {
+  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!zipBlob) {
+      setDownloadUrl(null);
+      return;
+    }
+
+    const url = URL.createObjectURL(zipBlob);
+    setDownloadUrl(url);
+    return () => URL.revokeObjectURL(url);
+  }, [zipBlob]);
+
   return (
     <Link
-      disabled={!zipBlob}
-      href={zipBlob ? URL.createObjectURL(zipBlob) : "#"}
+      $disabled={!downloadUrl}
+      href={downloadUrl ?? "#"}
+      aria-disabled={!downloadUrl}
+      tabIndex={downloadUrl ? undefined : -1}
+      onClick={(event) => {
+        if (!downloadUrl) event.preventDefault();
+      }}
       download="compressed-images.zip"
     >
       Download Compressed Images
@@ -40,22 +60,21 @@ const DownloadLink = ({ zipBlob }: DownloadLinkProps) => {
 
 interface DownloadImagesProps {
   zipBlob: Blob | null;
-  compressedImages: File[];
+  compressedFileCount: number;
 }
 
 export const DownloadImages = ({
   zipBlob,
-  compressedImages,
+  compressedFileCount,
 }: DownloadImagesProps) => {
   return (
     <Section>
       <SectionTitle>Download</SectionTitle>
       <Text>
-        {compressedImages.length > 0 ? (
+        {compressedFileCount > 0 ? (
           <>
-            <b>{compressedImages.length}</b> image
-            {compressedImages.length > 1 ? "s" : ""} compressed and ready for
-            download
+            <b>{compressedFileCount}</b> image{compressedFileCount === 1 ? "" : "s"}{" "}
+            compressed and ready for download
           </>
         ) : (
           "No images compressed yet"

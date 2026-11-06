@@ -10,34 +10,48 @@ const Wrapper = styled.div`
   border: 1px solid #ccc;
 `;
 
-const Bar = styled.div`
+const Track = styled.div`
   background-color: #e5e7eb;
   height: 1em;
   border-radius: 0.5em;
   overflow: hidden;
-  margin-bottom: 0.5em;
-  position: relative;
   width: 100%;
 `;
 
-const BarFill = styled(Bar)<{ progress: number }>`
+const Fill = styled.div<{ $progress: number }>`
   background-color: #06b6d4;
-  width: ${({ progress }) => progress}%;
+  height: 100%;
+  width: ${({ $progress }) => $progress}%;
   transition: width 0.3s ease;
 `;
 
 const ProgressLabel = styled.div`
   text-align: center;
   font-size: 0.875rem;
+  margin-top: 0.5em;
 `;
 
-export const ProgressBar = ({ progress }: { progress: number }) => {
+interface ProgressBarProps {
+  progress: number;
+  phase: string;
+}
+
+export const ProgressBar = ({ progress, phase }: ProgressBarProps) => {
+  const value = Math.min(100, Math.max(0, progress));
+
   return (
     <Wrapper>
-      <Bar>
-        <BarFill progress={progress} />
-      </Bar>
-      <ProgressLabel>{progress}%</ProgressLabel>
+      <Track
+        role="progressbar"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={value}
+        aria-label={`${phase}: ${value}%`}
+      >
+        <Fill $progress={value} />
+      </Track>
+      <ProgressLabel>{phase}</ProgressLabel>
+      <ProgressLabel>{value}%</ProgressLabel>
     </Wrapper>
   );
 };

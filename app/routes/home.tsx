@@ -1,16 +1,14 @@
-import type { Route } from "./+types/home";
 import { ImageCompressor } from "~/pages/ImageCompressor";
 
-export function meta({}: Route.MetaArgs) {
+export const meta = () => {
   return [
-    { title: "Image Compressor App" },
+    { title: "Image Compressor" },
     {
       name: "description",
-      content:
-        "An image compression app using the npm package 'browser-image-compression'",
+      content: "Compress images in your browser and download them as a ZIP file.",
     },
   ];
-}
+};
 
 export default function Home() {
   return <ImageCompressor />;

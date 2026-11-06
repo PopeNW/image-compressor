@@ -1,6 +1,6 @@
-import { useRef, useState, useEffect, type ChangeEvent } from "react";
-
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import styled from "styled-components";
+
 import { Section } from "./Section";
 import { SectionTitle } from "./SectionTitle";
 import { Button } from "./Button";
@@ -25,14 +25,26 @@ const PreviewGrid = styled.div`
   margin-bottom: 1rem;
 `;
 
-const PreviewImg = styled.img<{ selected?: boolean }>`
+const PreviewButton = styled.button`
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+  }
+`;
+
+const PreviewImg = styled.img<{ $selected: boolean }>`
   width: 60px;
   height: 60px;
   object-fit: cover;
   border-radius: 4px;
-  border: 2px solid ${({ selected }) => (selected ? "#007bff" : "#ddd")};
-  cursor: pointer;
-  box-shadow: ${({ selected }) => (selected ? "0 0 0 2px #007bff33" : "none")};
+  border: 2px solid ${({ $selected }) => ($selected ? "#007bff" : "#ddd")};
+  box-shadow: ${({ $selected }) => ($selected ? "0 0 0 2px #007bff33" : "none")};
 `;
 
 const LargePreviewWrapper = styled.div`
@@ -52,15 +64,15 @@ const LargePreviewImg = styled.img`
 `;
 
 interface UploadOptionsProps {
-  handleFileUpload: (e: ChangeEvent<HTMLInputElement>) => void;
-  uploadedFileCount?: number;
-  previewUrls?: string[];
+  onFilesSelected: (event: ChangeEvent<HTMLInputElement>) => void;
+  previewUrls: string[];
+  disabled?: boolean;
 }
 
 const ImageUploader = ({
-  handleFileUpload,
-  uploadedFileCount,
+  onFilesSelected,
   previewUrls,
+  disabled = false,
 }: UploadOptionsProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -69,36 +81,46 @@ const ImageUploader = ({
     setSelectedImageIndex(0);
   }, [previewUrls]);
 
-  const uploadCountText = uploadedFileCount ? (
+  const uploadCountText = previewUrls.length > 0 ? (
     <>
-      <b>{uploadedFileCount}</b> image{uploadedFileCount > 1 ? "s" : ""}{" "}
-      selected
+      <b>{previewUrls.length}</b> image{previewUrls.length === 1 ? "" : "s"} selected
     </>
   ) : (
     "Select images to upload"
+  );
+
+  const selectedIndex = Math.max(
+    0,
+    Math.min(selectedImageIndex, previewUrls.length - 1)
   );
 
   return (
     <Section>
       <SectionTitle>Upload</SectionTitle>
       <UploadCount>{uploadCountText}</UploadCount>
-      {previewUrls && previewUrls.length > 0 && (
+      {previewUrls.length > 0 && (
         <>
           <LargePreviewWrapper>
             <LargePreviewImg
-              src={previewUrls[selectedImageIndex]}
-              alt={`Large preview ${selectedImageIndex + 1}`}
+              src={previewUrls[selectedIndex]}
+              alt={`Preview of image ${selectedIndex + 1}`}
             />
           </LargePreviewWrapper>
           <PreviewGrid>
             {previewUrls.map((url, index) => (
-              <PreviewImg
-                key={index}
-                src={url}
-                alt={`Preview ${index + 1}`}
-                selected={index === selectedImageIndex}
+              <PreviewButton
+                key={url}
+                type="button"
+                aria-label={`Show image ${index + 1}`}
+                aria-pressed={index === selectedIndex}
                 onClick={() => setSelectedImageIndex(index)}
-              />
+              >
+                <PreviewImg
+                  src={url}
+                  alt=""
+                  $selected={index === selectedIndex}
+                />
+              </PreviewButton>
             ))}
           </PreviewGrid>
         </>
@@ -107,10 +129,14 @@ const ImageUploader = ({
         ref={inputRef}
         type="file"
         multiple
-        onChange={handleFileUpload}
+        onChange={onFilesSelected}
         accept="image/*"
+        disabled={disabled}
       />
-      <StyledUploadButton onClick={() => inputRef.current?.click()}>
+      <StyledUploadButton
+        onClick={() => inputRef.current?.click()}
+        disabled={disabled}
+      >
         Choose Images
       </StyledUploadButton>
     </Section>

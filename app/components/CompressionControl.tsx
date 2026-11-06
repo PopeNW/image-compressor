@@ -1,45 +1,25 @@
+import styled from "styled-components";
+
 import { Button } from "./Button";
 import { ProgressBar } from "./ProgressBar";
 import { Section } from "./Section";
 import { SectionTitle } from "./SectionTitle";
-import styled from "styled-components";
 import { Settings } from "./Settings";
-
-interface CompressButtonProps {
-  handleCompression: () => void;
-  isCompressing: boolean;
-  hasUploadedImages: boolean;
-}
-
-const CompressButton = ({
-  handleCompression,
-  isCompressing,
-  hasUploadedImages,
-}: CompressButtonProps) => {
-  return (
-    <Button
-      onClick={handleCompression}
-      disabled={isCompressing || !hasUploadedImages}
-    >
-      {isCompressing ? "Compressing Images..." : "Compress Images"}
-    </Button>
-  );
-};
 
 const Text = styled.p`
   margin-bottom: 1rem;
   color: #555;
 `;
 
-interface CompressionDescriptionProps {
+interface CompressionStatusProps {
   uploadedFileCount: number;
   compressedFileCount: number;
 }
 
-const CompressionDescription = ({
+const CompressionStatus = ({
   uploadedFileCount,
   compressedFileCount,
-}: CompressionDescriptionProps) => {
+}: CompressionStatusProps) => {
   if (compressedFileCount > 0) {
     return (
       <Text>
@@ -55,8 +35,8 @@ const CompressionDescription = ({
 
   return (
     <Text>
-      <b>{uploadedFileCount}</b> image{uploadedFileCount !== 1 ? "s" : ""} selected for
-      compression
+      <b>{uploadedFileCount}</b> image{uploadedFileCount !== 1 ? "s" : ""}{" "}
+      selected for compression
     </Text>
   );
 };
@@ -64,9 +44,11 @@ const CompressionDescription = ({
 interface CompressionControlProps {
   uploadedFileCount: number;
   compressedFileCount: number;
-  handleCompression: () => void;
+  onCompress: () => void;
   isCompressing: boolean;
   progress: number;
+  progressPhase: string;
+  error: string | null;
   maxSizeMB: number;
   setMaxSizeMB: (size: number) => void;
   maxWidthOrHeight: number;
@@ -76,9 +58,11 @@ interface CompressionControlProps {
 export const CompressionControl = ({
   uploadedFileCount,
   compressedFileCount,
-  handleCompression,
+  onCompress,
   isCompressing,
   progress,
+  progressPhase,
+  error,
   maxSizeMB,
   setMaxSizeMB,
   maxWidthOrHeight,
@@ -87,7 +71,7 @@ export const CompressionControl = ({
   return (
     <Section>
       <SectionTitle>Compress</SectionTitle>
-      <CompressionDescription
+      <CompressionStatus
         uploadedFileCount={uploadedFileCount}
         compressedFileCount={compressedFileCount}
       />
@@ -97,12 +81,14 @@ export const CompressionControl = ({
         maxWidthOrHeight={maxWidthOrHeight}
         setMaxWidthOrHeight={setMaxWidthOrHeight}
       />
-      <ProgressBar progress={progress} />
-      <CompressButton
-        handleCompression={handleCompression}
-        isCompressing={isCompressing}
-        hasUploadedImages={uploadedFileCount > 0}
-      />
+      <ProgressBar progress={progress} phase={progressPhase} />
+      <Button
+        onClick={onCompress}
+        disabled={isCompressing || uploadedFileCount === 0}
+      >
+        {isCompressing ? "Compressing Images..." : "Compress Images"}
+      </Button>
+      {error && <Text role="alert">{error}</Text>}
     </Section>
   );
 };
