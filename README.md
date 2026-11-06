@@ -13,6 +13,14 @@ A modern web application for bulk image compression in your browser, powered by 
 
 ## Getting Started
 
+### Requirements
+
+- Node.js 22.22.0 or newer (Docker uses Node.js 24)
+- npm
+
+The app uses React Router 8 with React 19, Vite 8, and TypeScript 7. The former React Router
+`future.v8_*` behaviors are defaults in v8, so no opt-in flags are needed.
+
 ### Installation
 
 Install dependencies:
