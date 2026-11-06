@@ -12,13 +12,16 @@ interface CompressionOptionsProps {
 const OptionsWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 1rem;
+  gap: 0.875rem;
   width: 100%;
-  border-radius: 0.5em;
-  border: 1px solid #ccc;
-  padding: 1em;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  background-color: #f3f4f6;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  padding: 1rem;
+  background-color: var(--surface-muted);
+
+  @media (max-width: 420px) {
+    flex-direction: column;
+  }
 `;
 
 const Settings = ({

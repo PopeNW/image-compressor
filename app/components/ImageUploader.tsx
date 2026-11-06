@@ -10,57 +10,67 @@ const HiddenInput = styled.input`
 `;
 
 const UploadCount = styled.p`
-  margin: 0.5rem 0;
-  color: #555;
+  margin: 0 0 0.75rem;
+  color: var(--text-secondary);
 `;
 
 const StyledUploadButton = styled(Button)`
   margin-top: auto;
 `;
 
+const UploadSection = styled(Section)`
+  grid-column: 1 / -1;
+`;
+
 const PreviewGrid = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: 0.65rem;
+  margin-bottom: 1.25rem;
 `;
 
 const PreviewButton = styled.button`
   padding: 0;
   border: 0;
-  border-radius: 4px;
+  border-radius: 0.6rem;
   background: none;
   cursor: pointer;
 
   &:focus-visible {
-    outline: 2px solid #007bff;
+    outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
 `;
 
 const PreviewImg = styled.img<{ $selected: boolean }>`
-  width: 60px;
-  height: 60px;
+  width: 68px;
+  height: 68px;
   object-fit: cover;
-  border-radius: 4px;
-  border: 2px solid ${({ $selected }) => ($selected ? "#007bff" : "#ddd")};
-  box-shadow: ${({ $selected }) => ($selected ? "0 0 0 2px #007bff33" : "none")};
+  border-radius: 0.6rem;
+  border: 2px solid
+    ${({ $selected }) => ($selected ? "var(--accent)" : "var(--border)")};
+  box-shadow: ${({ $selected }) =>
+    $selected ? "0 0 0 2px var(--accent-soft)" : "none"};
 `;
 
 const LargePreviewWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 1rem 0;
+  min-height: 180px;
+  margin: 0.5rem 0 1rem;
+  padding: 1rem;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
 `;
 
 const LargePreviewImg = styled.img`
   max-width: 100%;
-  max-height: 360px;
-  border-radius: 8px;
-  border: 2px solid #ddd;
-  box-shadow: 0 2px 8px #0001;
-  background: #fafbfc;
+  max-height: 320px;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+  background: var(--surface);
 `;
 
 interface UploadOptionsProps {
@@ -95,7 +105,7 @@ const ImageUploader = ({
   );
 
   return (
-    <Section>
+    <UploadSection>
       <SectionTitle>Upload</SectionTitle>
       <UploadCount>{uploadCountText}</UploadCount>
       {previewUrls.length > 0 && (
@@ -139,7 +149,7 @@ const ImageUploader = ({
       >
         Choose Images
       </StyledUploadButton>
-    </Section>
+    </UploadSection>
   );
 };
 

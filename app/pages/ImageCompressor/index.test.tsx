@@ -31,6 +31,9 @@ const getFileInput = () =>
 
 describe("ImageCompressor", () => {
   beforeEach(() => {
+    window.localStorage.clear();
+    delete document.documentElement.dataset.theme;
+
     let urlId = 0;
     Object.defineProperty(URL, "createObjectURL", {
       configurable: true,
@@ -58,6 +61,26 @@ describe("ImageCompressor", () => {
     expect(
       screen.getByRole("link", { name: "Download Compressed Images" })
     ).toHaveAttribute("aria-disabled", "true");
+  });
+
+  it("switches between light and dark themes and remembers the selection", async () => {
+    const user = userEvent.setup();
+    const { unmount } = render(<ImageCompressor />);
+
+    await user.click(screen.getByRole("button", { name: "Dark" }));
+    expect(document.documentElement).toHaveAttribute("data-theme", "dark");
+    expect(window.localStorage.getItem("image-compressor-theme")).toBe("dark");
+
+    unmount();
+    render(<ImageCompressor />);
+
+    await waitFor(() => {
+      expect(document.documentElement).toHaveAttribute("data-theme", "dark");
+      expect(screen.getByRole("button", { name: "Dark" })).toHaveAttribute(
+        "aria-pressed",
+        "true"
+      );
+    });
   });
 
   it("ignores files that are not images", () => {

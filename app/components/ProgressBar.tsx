@@ -2,33 +2,38 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   width: 100%;
-  border-radius: 0.5em;
-  padding: 1em;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  background-color: #f3f4f6;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  background-color: var(--surface-muted);
   margin: 1rem 0;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border);
 `;
 
 const Track = styled.div`
-  background-color: #e5e7eb;
-  height: 1em;
-  border-radius: 0.5em;
+  background-color: var(--track);
+  height: 0.65rem;
+  border-radius: 999px;
   overflow: hidden;
   width: 100%;
 `;
 
 const Fill = styled.div<{ $progress: number }>`
-  background-color: #06b6d4;
+  background-color: var(--accent);
   height: 100%;
   width: ${({ $progress }) => $progress}%;
-  transition: width 0.3s ease;
+  border-radius: inherit;
+  transition: width 250ms ease;
 `;
 
 const ProgressLabel = styled.div`
-  text-align: center;
+  display: inline-block;
+  color: var(--text-secondary);
   font-size: 0.875rem;
   margin-top: 0.5em;
+
+  & + & {
+    float: right;
+  }
 `;
 
 interface ProgressBarProps {

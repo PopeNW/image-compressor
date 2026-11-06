@@ -10,18 +10,21 @@ const Link = styled.a<{ $disabled: boolean }>`
 
   margin-top: auto;
   color: white;
-  background-color: ${({ $disabled }) => ($disabled ? "#6c757d" : "#28a745")};
+  background-color: ${({ $disabled }) =>
+    $disabled ? "var(--text-secondary)" : "var(--success)"};
   cursor: ${({ $disabled }) => ($disabled ? "not-allowed" : "pointer")};
   opacity: ${({ $disabled }) => ($disabled ? 0.6 : 1)};
 
   &:hover {
-    background-color: ${({ $disabled }) => ($disabled ? "#6c757d" : "#218838")};
+    background-color: ${({ $disabled }) =>
+      $disabled ? "var(--text-secondary)" : "var(--success-hover)"};
   }
 `;
 
 const Text = styled.p`
-  margin: 0.5rem 0;
-  color: #555;
+  margin: 0.25rem 0 1.25rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
 `;
 
 interface DownloadLinkProps {

@@ -3,10 +3,10 @@ import styled from "styled-components";
 export const Section = styled.section`
   display: flex;
   flex-direction: column;
-  min-width: 25em;
-  padding: 1rem;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ccc;
+  min-width: 0;
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  background-color: var(--surface);
+  border-radius: 1rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
 `;

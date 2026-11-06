@@ -8,7 +8,8 @@ import { Settings } from "./Settings";
 
 const Text = styled.p`
   margin-bottom: 1rem;
-  color: #555;
+  color: var(--text-secondary);
+  line-height: 1.5;
 `;
 
 interface CompressionStatusProps {

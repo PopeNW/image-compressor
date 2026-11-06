@@ -7,7 +7,7 @@ A modern web application for bulk image compression in your browser, powered by 
 - 🖼️ Bulk image compression (select multiple images)
 - ⚡ Fast, client-side processing—no uploads required
 - 📦 Download all compressed images as a single ZIP archive
-- 🎨 Clean, responsive UI with Tailwind CSS
+- 🎨 Responsive interface with light and dark themes
 - 🔒 Your images never leave your device
 - 🛠️ Built with React, TypeScript, and React Router
 

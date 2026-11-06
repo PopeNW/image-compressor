@@ -7,14 +7,23 @@ export const InputWrapper = styled.div`
 
   label {
     margin-bottom: 0.5rem;
-    color: #333;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-weight: 600;
   }
 
   input {
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
+    min-width: 0;
+    padding: 0.7rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 0.6rem;
+    background-color: var(--surface);
+    color: var(--text-primary);
     width: 100%;
+
+    &:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
   }
 `;
